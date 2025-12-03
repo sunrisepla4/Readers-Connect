@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invite — ReadersConnect (Invite-only)</title>
+  <meta name="description" content="Invite your book to ReadersConnect — a private, invite-only community of vetted readers who leave honest, thoughtful reviews.">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --maxw:1100px;
+      --bg:#F6F7F8;
+      --card:#FFFFFF;
+      --ink:#2b2b2b;
+      --muted:#6c737c;
+      --accent:#4A6FA5;
+      --accent-warm:#B77A4B;
+      --glass: rgba(255,255,255,0.96);
+      --radius:12px;
+      --shadow: 0 18px 48px rgba(20,20,20,0.08);
+      --ease: cubic-bezier(.2,.9,.3,1);
+      --max-upload-size: 15; /* MB displayed hint */
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+
+    /* header */
+    header.site{
+      position:sticky;top:0;z-index:60;
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+      border-bottom:1px solid rgba(20,20,20,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:var(--maxw);margin:0 auto;padding:12px 24px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--accent), #86A5C3);font-family:'Playfair Display',serif;box-shadow:var(--shadow)}
+    .brand h1{font-family:'Playfair Display',serif;margin:0;font-size:1rem}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{color:var(--muted);padding:8px;border-radius:8px;font-weight:600}
+    nav.primary a:hover{background:rgba(74,111,165,0.05);color:var(--ink)}
+    .cta-top{background:linear-gradient(90deg,var(--accent), #86A5C3);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+
+    /* page hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:48px 24px}
+    .hero-card{background:var(--glass);padding:28px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);transform:translateY(18px);opacity:0;transition:all .55s var(--ease)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(74,111,165,0.08);color:var(--accent);font-weight:700;margin-bottom:12px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--ink);margin-bottom:12px}
+    .hero-sub{color:var(--muted);font-size:1.03rem;max-width:56ch;margin-bottom:14px}
+
+    .meta{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);transform:translateY(18px);opacity:0;transition:all .55s var(--ease)}
+    .meta .num{font-family:'Playfair Display',serif;color:var(--accent);font-size:1.6rem;font-weight:700}
+    .meta p{color:var(--muted);margin-top:8px;font-size:.95rem}
+
+    /* form layout */
+    .invite-wrap{max-width:920px;margin:28px auto;padding:20px}
+    .invite-card{background:linear-gradient(180deg,var(--card), #fbfbfb);padding:22px;border-radius:12px;border:1px solid rgba(20,20,20,0.03);box-shadow:var(--shadow);transform:translateY(14px);opacity:0;transition:all .5s var(--ease)}
+    .invite-card h3{font-family:'Playfair Display',serif;margin-bottom:8px}
+    .invite-card p{color:var(--muted);margin-bottom:14px}
+    form.detailed{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
+    label{display:block;font-weight:600;margin-bottom:6px;color:var(--muted);font-size:.92rem}
+    .field{display:flex;flex-direction:column}
+    input[type="text"], input[type="email"], input[type="url"], input[type="number"], select, textarea{
+      padding:12px;border-radius:10px;border:1px solid rgba(20,20,20,0.06);background:#fff;color:var(--ink);font-size:0.98rem;
+    }
+    textarea{grid-column:1 / -1;min-height:120px;resize:vertical}
+    .small{font-size:.86rem;color:var(--muted);margin-top:6px}
+
+    .form-foot{grid-column:1 / -1;display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px}
+    .btn-primary{background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn-ghost{padding:10px 14px;border-radius:10px;border:1px solid rgba(20,20,20,0.06);background:transparent;color:var(--muted);font-weight:700}
+
+    /* file input + progress */
+    .file-wrap{display:flex;flex-direction:column;gap:8px}
+    .file-input{
+      display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px dashed rgba(20,20,20,0.08);background:#fff;
+    }
+    .file-input input[type="file"]{flex:1}
+    .file-name{font-size:.95rem;color:var(--muted)}
+    .progress{height:10px;width:100%;background:rgba(20,20,20,0.06);border-radius:8px;overflow:hidden}
+    .progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-warm));transition:width .25s ease}
+
+    /* privacy block */
+    .privacy{margin-top:12px;color:var(--muted);font-size:.95rem;border-left:3px solid rgba(74,111,165,0.08);padding-left:12px;padding-top:8px;padding-bottom:8px;border-radius:6px;background:linear-gradient(90deg, rgba(74,111,165,0.02), transparent)}
+
+    .error{border-color:#e06a6a;box-shadow:0 8px 24px rgba(224,106,106,0.06)}
+    .helper{font-size:.86rem;color:#e06a6a;margin-top:6px}
+
+    .success-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);padding:20px;border-radius:12px;box-shadow:0 30px 80px rgba(20,20,20,0.3);z-index:120;max-width:420px;text-align:center;display:none}
+    .success-modal.show{display:block}
+    .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+    footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.95rem;margin-top:18px}
+
+    /* reveal */
+    .show{transform:none;opacity:1 !important}
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; padding:28px 16px}
+      form.detailed{grid-template-columns:1fr}
+      textarea{grid-column:1 / -1}
+    }
+
+    /* accessibility focus styles */
+    :focus{outline:none}
+    input:focus, textarea:focus, select:focus, button:focus{
+      box-shadow:0 0 0 4px rgba(74,111,165,0.08);
+      outline:2px solid rgba(74,111,165,0.06);
+      border-color:rgba(74,111,165,0.15);
+    }
+  </style>
+</head>
+<body>
+  <header class="site" role="banner">
+    <div class="nav-row">
+      <div class="brand" aria-hidden="false">
+        <div class="brand-mark" aria-hidden>RC</div>
+        <div>
+          <h1>ReadersConnect</h1>
+          <div class="tag" style="color:var(--muted);font-size:.86rem">Invite-only · Trusted readers</div>
+        </div>
+      </div>
+
+      <nav class="primary" role="navigation" aria-label="Primary">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="how.html">How It Works</a>
+        <a href="invite.html" class="cta-top">Invite</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- hero -->
+    <section class="hero container" aria-labelledby="invite-hero">
+      <div class="hero-card" id="heroCard">
+        <div class="eyebrow">Invitation Request</div>
+        <h1 class="hero-title" id="invite-hero">Our community is private and invitation-only.</h1>
+        <p class="hero-sub">We partner with authors whose voices resonate with our mission: honest, thoughtful reading. Please complete this detailed form it helps us match your book with the right readers and maintain trust across the circle.</p>
+        <div style="margin-top:12px">
+          <a class="btn-primary" href="#form">Start the Invite</a>
+          <a class="btn-ghost" href="how.html">How it works</a>
+        </div>
+      </div>
+
+      <aside class="meta" id="metaCard" aria-hidden="true">
+        <div class="num">Privacy first</div>
+        <p>We do not sell lists or share your contact details. Matching and coordination happen via secure, invite-only email threads.</p>
+      </aside>
+    </section>
+
+    <!-- invite form -->
+    <section id="invite" class="invite-wrap" aria-labelledby="formTitle">
+      <div class="invite-card" id="inviteCard" role="region" aria-label="Invite form region">
+        <h3 id="formTitle">Request an Invitation</h3>
+        <p class="small">Complete this form and we’ll review your submission. We reply personally typically within 48 hours. Note: we maintain invite-only membership to protect quality and trust.</p>
+
+        <form class="detailed" id="inviteForm" action="upload.php" method="post" enctype="multipart/form-data" novalidate aria-describedby="formInstructions">
+          <div id="formInstructions" class="sr-only">Fill in your details and attach your digital book file. Allowed: PDF, EPUB, MOBI, DOC/DOCX. Max file size: 15 MB.</div>
+
+          <div class="field">
+            <label for="authorName">Author full name</label>
+            <input id="authorName" name="authorName" type="text" placeholder="Your name" required aria-required="true">
+            <div class="helper sr-only" id="errName">Required</div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required aria-required="true">
+            <div class="helper sr-only" id="errEmail">Valid email required</div>
+          </div>
+
+          <div class="field">
+            <label for="bookTitle">Book title</label>
+            <input id="bookTitle" name="bookTitle" type="text" placeholder="Title of your book" required aria-required="true">
+            <div class="helper sr-only" id="errTitle">Required</div>
+          </div>
+
+          <div class="field">
+            <label for="genre">Primary genre</label>
+            <select id="genre" name="genre" required aria-required="true">
+              <option value="">Choose genre</option>
+              <option>Fiction — Literary</option>
+              <option>Fiction — Commercial</option>
+              <option>Romance</option>
+              <option>Thriller / Mystery</option>
+              <option>Science Fiction / Fantasy</option>
+              <option>Memoir / Biography</option>
+              <option>Nonfiction — General</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="wordCount">Approx. word count</label>
+            <input id="wordCount" name="wordCount" type="number" min="1" placeholder="e.g., 70,000">
+          </div>
+
+          <div class="field">
+            <label for="link">Retail / landing page (optional)</label>
+            <input id="link" name="link" type="url" placeholder="Amazon / website link">
+            <div class="small">A link helps us understand market placement (optional).</div>
+          </div>
+
+          <!-- FILE UPLOAD -->
+          <div style="grid-column:1 / -1" class="field file-wrap" aria-live="polite">
+            <label for="bookFile">Upload digital copy (PDF, EPUB, MOBI, DOCX)</label>
+
+            <div class="file-input" role="group" aria-label="Book upload field">
+              <input id="bookFile" name="bookFile" type="file" accept=".pdf,.epub,.mobi,.doc,.docx" aria-describedby="fileHelp" required aria-required="true">
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                <div class="file-name" id="fileName">No file chosen</div>
+                <div style="font-size:.82rem;color:var(--muted)">Max <strong>15 MB</strong></div>
+              </div>
+            </div>
+
+            <div class="progress" aria-hidden="true" id="uploadProgress" style="display:none;margin-top:8px">
+              <span style="width:0"></span>
+            </div>
+
+            <div id="fileHelp" class="small">We accept PDF, EPUB, MOBI, DOC, DOCX. Files are stored privately and used only for review. </div>
+          </div>
+
+          <div class="field">
+            <label for="readersRequested">Readers requested</label>
+            <select id="readersRequested" name="readersRequested">
+              <option value="">Choose (suggested)</option>
+              <option>30</option>
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+          </div>
+
+          <div style="grid-column:1 / -1" class="field">
+            <label for="pitch">Short pitch or note to readers</label>
+            <textarea id="pitch" name="pitch" placeholder="One-paragraph pitch and anything you'd like readers to know (optional)"></textarea>
+            <div class="small">Keep it brief — what makes your book special?</div>
+          </div>
+
+          <div style="grid-column:1 / -1" class="privacy" aria-hidden="false">
+            <strong>Privacy & process:</strong> We review submissions personally. If accepted, we’ll invite you to a private reading circle and match your book to vetted readers. We do not sell contact lists or share personal data outside of coordination with invited readers. By submitting, you consent to receive email about your invitation request.
+          </div>
+
+          <div class="form-foot">
+            <button class="btn-primary" type="submit" id="sendBtn">Send Request</button>
+            <a class="btn-ghost" href="mailto:reviews@readersconnect.example">Or email us directly</a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- success modal -->
+  <div class="success-modal" id="successModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <h3 style="margin-bottom:8px">Request sent</h3>
+    <p style="color:var(--muted);margin-bottom:12px" id="successText">Thank you, we received your request. We’ll review and reply personally within 48 hours.</p>
+    <button class="btn-primary" onclick="closeModal()">Close</button>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div style="margin-bottom:6px">© <span id="year"></span> ReadersConnect — Invite-only readers</div>
+      <div style="color:var(--muted)">Email: <a href="mailto:reviews@readersconnect.example">reviews@readersconnect.example</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // reveal hero/meta/form
+    (function(){
+      const toReveal = [document.getElementById('heroCard'), document.getElementById('metaCard'), document.getElementById('inviteCard')];
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            en.target.classList.add('show');
+            o.unobserve(en.target);
+          }
+        });
+      }, {threshold:0.12});
+      toReveal.forEach(el=> el && obs.observe(el));
+    })();
+
+    // client-side validation + AJAX upload with progress
+    (function(){
+      const form = document.getElementById('inviteForm');
+      const fileInput = document.getElementById('bookFile');
+      const fileName = document.getElementById('fileName');
+      const progressBar = document.getElementById('uploadProgress');
+      const progressBarFill = progressBar.querySelector('span');
+      const modal = document.getElementById('successModal');
+      const successText = document.getElementById('successText');
+
+      // display chosen file name
+      fileInput.addEventListener('change', () => {
+        const f = fileInput.files[0];
+        if (!f) {
+          fileName.textContent = 'No file chosen';
+          return;
+        }
+        // truncate long names
+        const name = f.name.length > 40 ? f.name.slice(0,38) + '…' : f.name;
+        fileName.textContent = name;
+      });
+
+      // helper: show modal
+      function showModal(message){
+        successText.textContent = message || 'Thank you — we received your request. We’ll review and reply personally within 48 hours.';
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+      }
+      window.closeModal = function(){
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden','true');
+      };
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+
+        // client-side validation
+        const required = [
+          {el: form.authorName, name: 'name'},
+          {el: form.email, name: 'email'},
+          {el: form.bookTitle, name: 'title'},
+          {el: form.genre, name: 'genre'},
+          {el: form.bookFile, name: 'file'}
+        ];
+        let valid = true;
+        required.forEach(r=>{
+          r.el.classList.remove('error');
+          if ((r.el.type === 'file' && r.el.files.length === 0) || !r.el.value || (r.el.type === 'select-one' && r.el.value === '')) {
+            r.el.classList.add('error');
+            valid = false;
+          }
+        });
+
+        // email check
+        const email = form.email.value.trim();
+        if (!/^\S+@\S+\.\S+$/.test(email)) { form.email.classList.add('error'); valid = false; }
+
+        // file validations: type & size
+        if (fileInput.files.length > 0) {
+          const f = fileInput.files[0];
+          const allowed = /\.(pdf|epub|mobi|doc|docx)$/i;
+          if (!allowed.test(f.name)) {
+            fileInput.classList.add('error');
+            alert('Allowed file types: PDF, EPUB, MOBI, DOC, DOCX');
+            valid = false;
+          }
+          const maxMB = 15;
+          if (f.size > maxMB * 1024 * 1024) {
+            fileInput.classList.add('error');
+            alert('File is larger than ' + maxMB + ' MB. Please upload a smaller file.');
+            valid = false;
+          }
+        }
+
+        if (!valid) {
+          const firstErr = document.querySelector('.error');
+          if (firstErr) firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+          return;
+        }
+
+        // prepare form data and AJAX upload
+        const fd = new FormData(form);
+
+        // show progress UI
+        progressBar.style.display = 'block';
+        progressBarFill.style.width = '0%';
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+
+        xhr.upload.addEventListener('progress', (evt) => {
+          if (evt.lengthComputable) {
+            const pct = Math.round((evt.loaded / evt.total) * 100);
+            progressBarFill.style.width = pct + '%';
+          }
+        });
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            progressBar.style.display = 'none';
+            if (xhr.status === 200) {
+              try {
+                const res = JSON.parse(xhr.responseText);
+                if (res.success) {
+                  showModal(res.message || 'Request received. We will be in touch.');
+                  form.reset();
+                  fileName.textContent = 'No file chosen';
+                } else {
+                  alert(res.message || 'Upload failed. Please try again.');
+                }
+              } catch (err) {
+                alert('Server returned unexpected response. Please try again or email us directly.');
+              }
+            } else {
+              alert('Upload failed (network or server error). Please try again or email us: reviews@readersconnect.example');
+            }
+          }
+        };
+
+        xhr.onerror = function() {
+          progressBar.style.display = 'none';
+          alert('Upload error — please check your connection and try again.');
+        };
+
+        xhr.send(fd);
+      });
+    })();
+  </script>
+</body>
+</html>

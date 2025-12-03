@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — ReadersConnect</title>
+  <meta name="description" content="Reach out to ReadersConnect — a private community of real readers who care. We respond personally and thoughtfully to every message.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --maxw:1100px;
+      --bg:#FDF7F0;
+      --card:#FFFFFF;
+      --ink:#2b2b2b;
+      --muted:#6c737c;
+      --accent:#4A6FA5;
+      --accent-warm:#4A6FA5;
+      --glass: rgba(255,255,255,0.96);
+      --radius:14px;
+      --shadow: 0 20px 60px rgba(20,20,20,0.08);
+      --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+
+    header.site{
+      position:sticky;top:0;z-index:60;
+      background:linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,0.94));
+      border-bottom:1px solid rgba(20,20,20,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:var(--maxw);margin:0 auto;padding:12px 24px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--accent-warm), #E0C4A5);font-family:'Playfair Display',serif;box-shadow:var(--shadow)}
+    .brand h1{font-family:'Playfair Display',serif;margin:0;font-size:1rem}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{color:var(--muted);padding:8px;border-radius:8px;font-weight:600}
+    nav.primary a:hover{background:rgba(74,111,165,0.05);color:var(--ink)}
+    .cta-top{background:linear-gradient(90deg,var(--accent), #86A5C3);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+
+    /* hero */
+    .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;gap:14px;background:url('https://images.unsplash.com/photo-1512820790803-83ca734da794?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTI4MHwwfDF8c2VlfHx8fHx8Mnx8MTYwNjkxNzcyNw&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center/cover; border-radius:12px; color:#fff; box-shadow:var(--shadow);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:8px; text-shadow:0 2px 6px rgba(0,0,0,0.25)}
+    .hero p{color:#f2f2f2; max-width:60ch;font-size:1rem; text-shadow:0 1px 4px rgba(0,0,0,0.25)}
+
+    /* contact form */
+    .contact-wrap{max-width:720px;margin:40px auto;padding:20px}
+    .contact-card{background:var(--card);padding:28px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);transform:translateY(14px);opacity:0;transition:all .6s var(--ease)}
+    form.contact{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label{display:block;font-weight:600;margin-bottom:6px;color:var(--muted);font-size:.92rem}
+    .field{display:flex;flex-direction:column}
+    input[type="text"], input[type="email"], textarea{
+      padding:14px;border-radius:12px;border:1px solid rgba(20,20,20,0.06);background:#fff;color:var(--ink);font-size:1rem;
+    }
+    textarea{grid-column:1 / -1;min-height:140px;resize:vertical}
+    .btn-primary{background:var(--accent-warm);color:#fff;padding:14px 20px;border-radius:12px;border:0;font-weight:700;cursor:pointer;margin-top:12px;transition:all 0.3s var(--ease)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(20,20,20,0.15)}
+    .small{font-size:.88rem;color:var(--muted);margin-top:6px}
+
+    .error{border-color:#e06a6a;box-shadow:0 8px 24px rgba(224,106,106,0.06)}
+    .helper{font-size:.86rem;color:#e06a6a;margin-top:6px}
+
+    /* success modal */
+    .success-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);padding:22px;border-radius:14px;box-shadow:0 30px 80px rgba(20,20,20,0.3);z-index:120;max-width:420px;text-align:center;display:none}
+    .success-modal.show{display:block}
+
+    footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.95rem;margin-top:18px}
+
+    /* reveal */
+    .show{transform:none;opacity:1 !important}
+
+    @media (max-width:980px){
+      form.contact{grid-template-columns:1fr}
+      textarea{grid-column:1 / -1}
+    }
+  </style>
+</head>
+<body>
+  <header class="site" role="banner">
+    <div class="nav-row">
+      <div class="brand" aria-hidden="false">
+        <div class="brand-mark">RC</div>
+        <div>
+          <h1>ReadersConnect</h1>
+          <div class="tag" style="color:var(--muted);font-size:.86rem">Private · Trusted readers</div>
+        </div>
+      </div>
+
+      <nav class="primary" role="navigation" aria-label="Primary">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="how.html">How It Works</a>
+        <a href="invite.html" class="cta-top">Invite</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- hero -->
+    <section class="hero">
+      <h1>Get in Touch With Us</h1>
+      <p>We are real readers who care about stories and about you. Every message is read personally, and we reply thoughtfully within 24–48 hours.</p>
+    </section>
+
+    <!-- contact form -->
+    <section class="contact-wrap">
+      <div class="contact-card" id="contactCard">
+        <form class="contact" id="contactForm" action="mailto:reviews@readersconnect.example" method="post" enctype="text/plain" novalidate>
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" placeholder="Full Name" required>
+            <div class="helper sr-only">Required</div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            <div class="helper sr-only">Valid email required</div>
+          </div>
+
+          <div class="field" style="grid-column:1 / -1">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message here... (e.g., question, book inquiry, or feedback)" required></textarea>
+            <div class="helper sr-only">Required</div>
+          </div>
+
+          <button type="submit" class="btn-primary">Send Message</button>
+          <div class="small">We do not share your details. Your message is read by our founder personally.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- success modal -->
+  <div class="success-modal" id="successModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <h3>Message Sent</h3>
+    <p>Thank you — your message is received. We'll reply personally within 24–48 hours.</p>
+    <button class="btn-primary" onclick="closeModal()">Close</button>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div>© <span id="year"></span> ReadersConnect — Private, trusted readers</div>
+      <div>Email: <a href="mailto:reviews@readersconnect.example">reviews@readersconnect.example</a></div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // reveal card
+    const contactCard = document.getElementById('contactCard');
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(en => {
+        if(en.isIntersecting){
+          en.target.classList.add('show');
+          o.unobserve(en.target);
+        }
+      });
+    }, {threshold:0.15});
+    obs.observe(contactCard);
+
+    // form validation + mailto fallback
+    const form = document.getElementById('contactForm');
+    const modal = document.getElementById('successModal');
+
+    function showModal(){ modal.classList.add('show'); modal.setAttribute('aria-hidden','false'); }
+    window.closeModal = function(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      let valid=true;
+      [form.name, form.email, form.message].forEach(f=>{
+        f.classList.remove('error');
+        if(!f.value.trim()){ f.classList.add('error'); valid=false; }
+      });
+      if(!/^\S+@\S+\.\S+$/.test(form.email.value.trim())){ form.email.classList.add('error'); valid=false; }
+      if(!valid) return;
+
+      const to = 'reviews@readersconnect.example';
+      const subject = encodeURIComponent('Contact message from ' + form.name.value);
+      const body = encodeURIComponent('Name: '+form.name.value+'\nEmail: '+form.email.value+'\n\nMessage:\n'+form.message.value);
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+      showModal();
+      setTimeout(()=>form.reset(),500);
+    });
+  </script>
+</body>
+</html>

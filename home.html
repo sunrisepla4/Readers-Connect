@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readers Connect</title>
+</head>
+<body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ReadersConnect — Private Readers. Real Reviews.</title>
+  <meta name="description" content="ReadersConnect is an invite-only community of real readers who leave honest, thoughtful reviews for authors.">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================
+       Variables & reset
+       ========================== */
+    :root{
+      --maxw:1200px;
+      --bg: #F5F6F7;
+      --card:#FFFFFF;
+      --ink:#2b2b2b;
+      --muted:#6c6f73;
+      --accent:#4A6FA5;         /* dusty blue */
+      --accent-warm:#B77A4B;    /* warm supporting */
+      --glass: rgba(255,255,255,0.88);
+      --radius:12px;
+      --shadow: 0 16px 48px rgba(20,20,20,0.09);
+      --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--ink);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+    }
+    a{color:inherit}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+
+    /* ==========================
+       Top nav
+       ========================== */
+    header.site{
+      position:sticky; top:0; z-index:60;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-bottom:1px solid rgba(20,20,20,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .nav-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px;max-width:var(--maxw);margin:0 auto}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{
+      width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+      background:linear-gradient(135deg,var(--accent), #86A5C3); font-family:'Playfair Display',serif;
+      box-shadow:var(--shadow);
+    }
+    .brand h1{font-family:'Playfair Display',serif;font-size:1rem;margin:0}
+    .brand .tag{font-size:.86rem;color:var(--muted)}
+    nav.primary{display:flex;gap:14px;align-items:center}
+    nav.primary a{color:var(--muted);font-weight:600;padding:8px;border-radius:8px}
+    nav.primary a:hover{color:var(--ink);background:rgba(74,111,165,0.05)}
+    .cta-top{background:linear-gradient(90deg,var(--accent), #86A5C3);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer;transition:transform .18s var(--ease)}
+    .cta-top:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(74,111,165,0.12)}
+
+    /* ==========================
+       Hero (full-width image + parallax)
+       ========================== */
+    .hero-wrap{position:relative;width:100%;height:72vh;min-height:420px;overflow:hidden}
+    .hero-bg{
+      position:absolute;inset:0;background-image:
+      url('readers.jpg'),
+      url('https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=2000&auto=format&fit=crop');
+      background-size:cover, cover; background-position:center center, center center; filter:saturate(92%) contrast(96%);
+      transform:translateZ(0);
+    }
+    /* gentle overlay to keep contrast */
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.72), rgba(250,248,246,0.6));mix-blend-mode:normal}
+
+    .hero-inner{position:relative;z-index:3;padding:48px 0;display:flex;align-items:center;min-height:inherit}
+    .hero-grid{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+    .hero-card{
+      background:var(--glass);padding:28px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);
+      transform: translateY(24px); opacity:0; transition: all .6s var(--ease);
+    }
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(74,111,165,0.08);color:var(--accent);font-weight:700;margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--ink);line-height:1.03;margin-bottom:12px}
+    .hero-sub{color:var(--muted);font-size:1.05rem;margin-bottom:18px;max-width:56ch}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-primary{background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;border:0;font-weight:700;cursor:pointer;transition:all .18s var(--ease);box-shadow:0 10px 30px rgba(74,111,165,0.08)}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 48px rgba(74,111,165,0.14)}
+    .btn-ghost{padding:11px 16px;border-radius:10px;border:1px solid rgba(20,20,20,0.06);background:transparent;color:var(--muted);font-weight:700}
+
+    .hero-meta{
+      background:var(--card); padding:18px; border-radius:12px; box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);
+      transform: translateY(24px); opacity:0; transition: all .6s var(--ease);
+    }
+    .meta-stat{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--accent);font-weight:700}
+    .meta-sub{color:var(--muted);margin-top:6px;font-size:.95rem}
+
+    /* subtle parallax via transform on scroll */
+    .parallax{will-change:transform}
+
+    /* ==========================
+       Sections: alternating rows
+       ========================== */
+    .section{padding:64px 0}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+    .split img{width:100%;height:420px;object-fit:cover;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03)}
+    .paper{background:var(--card);padding:28px;border-radius:12px;border:1px solid rgba(20,20,20,0.03);box-shadow:0 10px 30px rgba(20,20,20,0.03); transform: translateY(18px); opacity:0; transition: all .5s var(--ease)}
+    .h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:10px}
+    .p-muted{color:var(--muted);font-size:1.02rem;line-height:1.6}
+
+    .cards{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+    .card{min-width:200px;max-width:300px;padding:18px;border-radius:10px;border:1px solid rgba(20,20,20,0.04);background:linear-gradient(180deg,#fff,#fbfbfb);box-shadow:0 8px 20px rgba(20,20,20,0.03)}
+    .card h4{font-family:'Playfair Display',serif;margin-bottom:8px}
+
+    /* ==========================
+       Carousel
+       ========================== */
+    .carousel{max-width:var(--maxw);margin:0 auto;padding:32px 24px}
+    .carousel-inner{position:relative;overflow:hidden;border-radius:12px}
+    .slides{display:flex;transition:transform .55s var(--ease)}
+    .slide{min-width:100%;padding:28px;background:var(--card);border:1px solid rgba(20,20,20,0.03);box-shadow:var(--shadow)}
+    .quote{font-style:italic;color:var(--muted);margin-bottom:12px}
+    .by{font-weight:700;color:var(--ink)}
+    .carousel-controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,20,20,0.12);cursor:pointer}
+    .dot.active{background:var(--accent)}
+
+    /* ==========================
+       Invite card (form)
+       ========================== */
+    .invite-card{max-width:820px;margin:0 auto;padding:28px;border-radius:12px;background:linear-gradient(180deg,var(--card), #fbfbfb);box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.04); transform: translateY(18px); opacity:0; transition: all .5s var(--ease)}
+    form.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    input,textarea,select{padding:12px;border-radius:10px;border:1px solid rgba(20,20,20,0.06);background:#fff;color:var(--ink);font-size:.98rem}
+    textarea{grid-column:1 / -1;min-height:120px;resize:vertical}
+    .form-cta{grid-column:1 / -1;display:flex;gap:10px;justify-content:center;margin-top:12px}
+
+    /* validation & confirmation */
+    .error{border-color:#e06a6a;box-shadow:0 6px 18px rgba(224,106,106,0.08)}
+    .success-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--card);padding:22px;border-radius:12px;box-shadow:0 30px 80px rgba(20,20,20,0.3);z-index:120;max-width:420px;text-align:center;display:none}
+    .success-modal.show{display:block}
+
+    /* ==========================
+       Footer
+       ========================== */
+    footer.site{padding:40px 0;text-align:center;color:var(--muted);font-size:.95rem}
+
+    /* ==========================
+       Reveal class for scroll
+       ========================== */
+    .show{transform:none;opacity:1 !important}
+
+    /* ==========================
+       Responsive
+       ========================== */
+    @media (max-width:980px){
+      .hero-grid{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .paper{padding:18px}
+      .hero-title{font-size:1.6rem}
+      .hero-sub{font-size:.98rem}
+      .hero-inner{padding:28px 0}
+    }
+    @media (max-width:620px){
+      nav.primary{display:none}
+      .brand h1{font-size:.98rem}
+    }
+  </style>
+</head>
+<body>
+
+ <!-- NAV -->
+  <header class="site" role="banner">
+    <div class="nav-row">
+      <div class="brand" aria-label="ReadersConnect">
+        <div class="brand-mark" aria-hidden>RC</div>
+        <div>
+          <h1>ReadersConnect</h1>
+          <div class="tag">Private Readers. Real Reviews. Honest Connections</div>
+        </div>
+      </div>
+
+      <nav class="primary" aria-label="Top links" style="padding-right:24px">
+        <a href="home.html">Home</a>
+        <a href="about.html">Our Story</a>
+        <a href="how.html" style="color:var(--ink);">How it Works</a>
+        <a href="invite.html">Invite</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- background + overlay -->
+  <div class="hero-wrap" aria-hidden="true">
+    <div class="hero-bg parallax" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+  </div>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero-inner" aria-labelledby="hero-heading">
+      <div class="hero-grid">
+        <div class="hero-card" id="heroCard">
+          <div class="eyebrow">Invite-only · Private circles</div>
+          <h2 class="hero-title" id="hero-heading">“We’re not an agency. We’re real readers who care.”</h2>
+          <p class="hero-sub">I started ReadersConnect after long noisy days on construction sites when books became the place I could breathe. From that small circle we built a private community of readers who give honest, thoughtful reviews not for pay, but because they love to read.</p>
+          <div class="hero-actions" role="group">
+            <a href="invite.html" class="btn-primary">Invite Your Book</a>
+            <a href="about.html" class="btn-ghost">Read Our Story</a>
+          </div>
+          <div class="hero-note" style="margin-top:14px">Founded by <span style="font-family:'Dancing Script',cursive;">— Samuel</span> · every reading circle is powered by a small thank-you gesture from authors (a coffee or snack).</div>
+        </div>
+
+        <aside class="hero-meta" id="metaCard" aria-hidden="true">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="meta-stat">4,000+</div>
+            <div class="meta-sub">Vetted readers — teachers, parents, artists, students, and everyday people.</div>
+            <div style="color:var(--muted);font-size:.95rem">We match readers by genre and run focused reading cycles (7–21 days) so reviews are thoughtful and timely.</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- STORY (image left) -->
+    <section id="story" class="section">
+      <div class="split">
+        <div><img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1400&auto=format&fit=crop" alt="library shelves and warm light"></div>
+        <div class="paper" id="storyPaper">
+          <h3 class="h2">How it began</h3>
+          <p class="p-muted">I used to work long shifts on construction sites loud, tiring, and often lonely. Books opened a quiet space for me. A small group of us started reading together; those pages became a place to breathe and be seen. From that simple circle, ReadersConnect grew into a private community of readers who care about stories and the people who write them.</p>
+          <p class="p-muted" style="margin-top:12px">We’re not a marketing agency or a paid review group. We are readers everyday people who read closely and leave honest feedback that helps good books find real readers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS (text left) -->
+    <section id="how" class="section">
+      <div class="split">
+        <div class="paper" id="howPaper">
+          <h3 class="h2">How it works</h3>
+          <p class="p-muted">When an author invites us, they choose a reader size. We run gentle, focused reading cycles usually 7, 14, or 21 days. Readers read together, share impressions, and leave policy-compliant reviews on Amazon and Goodreads.</p>
+          <div class="cards" aria-hidden="false">
+            <div class="card"><h4>Share</h4><p class="p-muted">Authors submit a digital copy and choose how many readers they'd like (30–200+).</p></div>
+            <div class="card"><h4>Read</h4><p class="p-muted">Readers join a short, supported cycle and discuss the book in private threads.</p></div>
+            <div class="card"><h4>Review</h4><p class="p-muted">Vetted readers post honest, policy-compliant reviews that reflect their real experience.</p></div>
+          </div>
+        </div>
+        <div><img src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=1400&auto=format&fit=crop" alt="people reading together"></div>
+      </div>
+    </section>
+
+    <!-- CAROUSEL Testimonials -->
+    <section id="voices" class="section">
+      <div class="container carousel">
+        <div style="text-align:center;margin-bottom:12px">
+          <h3 class="h2">Voices from our community</h3>
+          <div style="color:var(--muted);max-width:760px;margin:6px auto">Authors and readers say the process feels like being heard thoughtful, honest, and kind.</div>
+        </div>
+
+        <div class="carousel-inner" aria-live="polite">
+          <div class="slides" id="slides">
+            <div class="slide">
+              <div class="quote">“ReadersConnect gave my manuscript the careful attention it needed the reviews were thoughtful and helped me revise a crucial scene.”</div>
+              <div class="by">— A.M., indie author</div>
+            </div>
+
+            <div class="slide">
+              <div class="quote">“The readers were earnest and kind. Feedback was specific and helped me understand readers’ reactions.”</div>
+              <div class="by">— S.R., small-press author</div>
+            </div>
+
+            <div class="slide">
+              <div class="quote">“I enjoy being part of a private circle reading with others felt like being in a roomful of curiosity.”</div>
+              <div class="by">— L.B., community reader</div>
+            </div>
+          </div>
+
+          <div class="carousel-controls" id="dots" role="tablist" aria-label="Testimonials"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Invite (form) -->
+    <section id="invite" class="section">
+      <div class="invite-card" id="inviteCard">
+        <h3 class="h2" style="text-align:center">Invite Us</h3>
+        <p class="p-muted" style="text-align:center;max-width:820px;margin:0 auto">We remain invite-only to protect trust and quality. Tell us about your book and we reply personally and match your title to a caring reading circle.</p>
+
+        <form class="row" id="inviteForm" action="mailto:reviews@readersconnect.example" method="post" enctype="text/plain" style="margin-top:18px" aria-label="Invite form">
+          <input name="authorName" type="text" placeholder="Your name" required>
+          <input name="email" type="email" placeholder="Email" required>
+          <input name="bookTitle" type="text" placeholder="Book title" required>
+          <input name="readersRequested" type="text" placeholder="Reader count (e.g., 30 / 50 / 200)">
+          <textarea name="notes" placeholder="Short note for readers (optional)"></textarea>
+
+          <div class="form-cta">
+            <button type="submit" class="btn-primary" id="sendBtn">Send Invitation</button>
+            <a class="btn-ghost" href="mailto:reviews@readersconnect.example">Or email us directly</a>
+          </div>
+        </form>
+
+        <div style="margin-top:18px;color:var(--muted);font-style:italic">
+          <span style="font-family:'Dancing Script',cursive;font-size:1.04rem">— Samuel</span>
+          <div style="margin-top:8px">“Books gave me back a voice. We read to listen, to honor writers, and to leave honest feedback that helps work reach real readers.”</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- footer -->
+  <footer class="site">
+    <div class="container">
+      <div style="margin-bottom:6px">© <span id="year"></span> ReadersConnect — Private readers only</div>
+      <div style="color:var(--muted)">Email: <a href="mailto:reviews@readersconnect.example">reviews@readersconnect.example</a></div>
+    </div>
+  </footer>
+
+  <!-- SUCCESS MODAL -->
+  <div class="success-modal" id="successModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <h3 style="margin-bottom:8px">Invitation sent</h3>
+    <p style="color:var(--muted);margin-bottom:12px">Thanks — we received your request. We’ll reply personally within 48 hours.</p>
+    <button class="btn-primary" onclick="closeModal()">Close</button>
+  </div>
+
+  <!-- ==========================
+       Scripts: parallax, reveal, validation, carousel
+       ========================== -->
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* --------------------------
+       Parallax on hero (subtle)
+       -------------------------- */
+    (function(){
+      const heroBg = document.getElementById('heroBg');
+      if(!heroBg) return;
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        // translate slower for parallax effect
+        heroBg.style.transform = `translateY(${scrolled * 0.12}px) scale(1.03)`;
+      }, {passive:true});
+    })();
+
+    /* --------------------------
+       Scroll reveal (smooth & quick)
+       -------------------------- */
+    (function(){
+      const elems = document.querySelectorAll('.hero-card, .hero-meta, .paper, .invite-card, .card, .slide');
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('show');
+            o.unobserve(e.target);
+          }
+        });
+      }, {threshold:0.12});
+      elems.forEach(el => obs.observe(el));
+    })();
+
+    /* --------------------------
+       Testimonials carousel
+       -------------------------- */
+    (function(){
+      const slides = document.getElementById('slides');
+      const total = slides.children.length;
+      const dotsWrap = document.getElementById('dots');
+      let idx = 0, timer;
+      const autoplayDelay = 4200;
+
+      // create dots
+      for (let i=0;i<total;i++){
+        const d = document.createElement('button');
+        d.className = 'dot' + (i===0?' active':'');
+        d.setAttribute('aria-label', 'Show testimonial ' + (i+1));
+        d.addEventListener('click', ()=> goTo(i));
+        dotsWrap.appendChild(d);
+      }
+      const dots = dotsWrap.querySelectorAll('.dot');
+
+      function update(){
+        slides.style.transform = `translateX(-${idx * 100}%)`;
+        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+      }
+      function next(){ idx = (idx + 1) % total; update(); }
+      function goTo(i){ idx = i; update(); reset(); }
+      function reset(){ clearInterval(timer); timer = setInterval(next, autoplayDelay); }
+
+      // start autoplay
+      reset();
+
+      // pause on hover/focus
+      slides.addEventListener('mouseenter', ()=> clearInterval(timer));
+      slides.addEventListener('mouseleave', ()=> reset());
+    })();
+
+    /* --------------------------
+       Invite form: client-side validation + friendly UX
+       -------------------------- */
+    (function(){
+      const form = document.getElementById('inviteForm');
+      const sendBtn = document.getElementById('sendBtn');
+      const modal = document.getElementById('successModal');
+
+      function showModal(){
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+      }
+      window.closeModal = function(){
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden','true');
+      };
+
+      // basic validation before submitting via mailto (forms with mailto may open mail client)
+      form.addEventListener('submit', function(e){
+        // prevent auto-submit to allow validation and show success UX
+        e.preventDefault();
+
+        // simple validation
+        const name = form.authorName.value.trim();
+        const email = form.email.value.trim();
+        const book = form.bookTitle.value.trim();
+        let valid = true;
+
+        // reset error styles
+        [form.authorName, form.email, form.bookTitle].forEach(i => i.classList.remove('error'));
+
+        if (!name){ form.authorName.classList.add('error'); valid = false; }
+        // basic email regex
+        if (!/^\S+@\S+\.\S+$/.test(email)){ form.email.classList.add('error'); valid = false; }
+        if (!book){ form.bookTitle.classList.add('error'); valid = false; }
+
+        if (!valid) {
+          // scroll to first error
+          const err = document.querySelector('.error');
+          if (err) err.scrollIntoView({behavior:'smooth', block:'center'});
+          return;
+        }
+
+        // optional: attempt to open user's mail client with prefilled body
+        const to = 'reviews@readersconnect.example'; // replace with real email
+        const subject = encodeURIComponent('ReadersConnect Invitation: ' + book + ' — ' + name);
+        const body = encodeURIComponent(
+          'Author name: ' + name + '\\n' +
+          'Email: ' + email + '\\n' +
+          'Book title: ' + book + '\\n' +
+          'Readers requested: ' + (form.readersRequested.value || '') + '\\n\\n' +
+          'Notes:\\n' + (form.notes.value || '')
+        );
+        // open mailto in user's mail client
+        window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+        // show success modal (even if mail client opens, this gives immediate feedback)
+        showModal();
+
+        // optional: clear form after a short delay (feel optional)
+        setTimeout(()=> {
+          form.reset();
+        }, 800);
+      });
+    })();
+  </script>
+</body>
+</html>
+
+</body>
+</html>

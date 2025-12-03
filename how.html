@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Process — ReadersConnect</title>
+  <meta name="description" content="How ReadersConnect works — submit your book, we match readers, run focused reading cycles, and deliver honest reviews.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --maxw:1200px;
+      --bg:#F6F7F8;
+      --card:#FFFFFF;
+      --ink:#2b2b2b;
+      --muted:#6c737c;
+      --accent:#4A6FA5;
+      --accent-warm:#4A6FA5;
+      --glass: rgba(255,255,255,0.96);
+      --radius:12px;
+      --shadow: 0 16px 48px rgba(20,20,20,0.08);
+      --ease: cubic-bezier(.2,.9,.3,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background:var(--bg);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+    }
+    a{color:inherit}
+    img{max-width:100%;display:block;border-radius:10px}
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px}
+
+    /* Header */
+    header.site{
+      position:sticky;top:0;z-index:60;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+      border-bottom:1px solid rgba(20,20,20,0.03);backdrop-filter: blur(6px);
+    }
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:var(--maxw);margin:0 auto;padding:12px 24px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+      background:linear-gradient(135deg,var(--accent), #86A5C3); font-family:'Playfair Display',serif; box-shadow:var(--shadow)}
+    .brand h1{font-family:'Playfair Display',serif;font-size:1rem;margin:0}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    nav.primary a{color:var(--muted);font-weight:600;padding:8px;border-radius:8px}
+    nav.primary a:hover{background:rgba(74,111,165,0.05);color:var(--ink)}
+
+    /* Page intro hero (calm & reassuring) */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:56px 24px 12px}
+    .hero-card{background:var(--glass);padding:28px;border-radius:14px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);
+      transform:translateY(18px);opacity:0;transition:all .55s var(--ease)}
+    .eyebrow{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(74,111,165,0.08);color:var(--accent);font-weight:700;margin-bottom:12px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:2rem;color:var(--ink);margin-bottom:10px}
+    .hero-sub{color:var(--muted);font-size:1.03rem;max-width:56ch;margin-bottom:14px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .btn-primary{background:var(--accent);color:#fff;padding:12px 18px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn-ghost{padding:11px 14px;border-radius:10px;border:1px solid rgba(20,20,20,0.06);background:transparent;color:var(--muted);font-weight:700}
+
+    .meta{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03);
+      transform:translateY(18px);opacity:0;transition:all .55s var(--ease)}
+    .meta .num{font-family:'Playfair Display',serif;color:var(--accent);font-size:1.6rem;font-weight:700}
+    .meta p{color:var(--muted);margin-top:8px;font-size:.95rem}
+
+    /* Steps area (story + steps) */
+    .steps-wrap{padding:36px 24px}
+    .intro{max-width:880px;margin:0 auto 16px;text-align:center}
+    .intro h2{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:10px}
+    .intro p{color:var(--muted)}
+
+    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:18px auto}
+    .step{
+      background:linear-gradient(180deg,#fff,#fbfbfb);
+      padding:18px;border-radius:12px;border:1px solid rgba(20,20,20,0.04);box-shadow:0 8px 30px rgba(20,20,20,0.03);
+      transform:translateY(14px);opacity:0;transition:all .45s var(--ease)
+    }
+    .step .num{width:44px;height:44px;border-radius:10px;background:rgba(74,111,165,0.08);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;margin-bottom:12px}
+    .step h4{font-family:'Playfair Display',serif;margin-bottom:8px}
+    .step p{color:var(--muted);line-height:1.6}
+
+    /* for six steps we will stack two rows of three */
+    .steps-grid-2{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1100px;margin:18px auto 36px}
+
+    /* each step image row */
+    .step-illustration{height:220px;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(20,20,20,0.03);border:1px solid rgba(20,20,20,0.03);margin-bottom:12px}
+    .step-illustration img{width:100%;height:100%;object-fit:cover}
+
+    /* FAQ + trust micro */
+    .trust{max-width:900px;margin:28px auto;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfbfb);border:1px solid rgba(20,20,20,0.03);box-shadow:var(--shadow)}
+    .trust h4{font-family:'Playfair Display',serif;margin-bottom:8px}
+    .trust p{color:var(--muted)}
+
+    /* CTA footer */
+    .cta{padding:36px 24px;text-align:center}
+    .cta .cta-card{display:inline-block;padding:20px 26px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfbfb);box-shadow:var(--shadow);border:1px solid rgba(20,20,20,0.03)}
+    .cta p{color:var(--muted);margin-bottom:12px}
+
+    /* reveal helper */
+    .show{transform:none;opacity:1 !important}
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; padding:28px 16px}
+      .steps-grid{grid-template-columns:1fr}
+      .steps-grid-2{grid-template-columns:1fr}
+      .step-illustration{height:180px}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="nav-row">
+      <div class="brand" aria-hidden="false">
+        <div class="brand-mark">RC</div>
+        <div>
+          <h1>ReadersConnect</h1>
+          <div class="tag" style="color:var(--muted);font-size:.86rem">Invite-only · Trusted readers</div>
+        </div>
+      </div>
+
+     <nav class="primary" aria-label="Top links" style="padding-right:24px">
+        <a href="home.html">Home</a>
+        <a href="about.html">Our Story</a>
+        <a href="how.html" style="color:var(--ink);">How it Works</a>
+        <a href="invite.html">Invite</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / intro (calm & reassuring tone) -->
+  <main>
+    <section class="hero container" aria-labelledby="how-hero">
+      <div class="hero-card" id="heroCard">
+        <div class="eyebrow">How it works</div>
+        <h1 class="hero-title" id="how-hero">Our process is simple, transparent, and built on trust.</h1>
+        <p class="hero-sub">We match your book with readers who care. We run focused reading cycles and deliver honest, policy-compliant reviews no hype, no paid farms. Below is the journey from submission to review.</p>
+        <div style="margin-top:12px" class="hero-actions">
+          <a class="btn-primary" href="invite.html">Invite Your Book</a>
+          <a class="btn-ghost" href="about.html">Read Our Story</a>
+        </div>
+      </div>
+
+      <aside class="meta" id="metaCard" aria-hidden="true">
+        <div class="num">4,000+</div>
+        <p>Vetted readers across many backgrounds, we match by genre, availability, and reading experience to create thoughtful circles.</p>
+      </aside>
+    </section>
+
+    <!-- Storytelling intro -->
+    <section class="steps-wrap">
+      <div class="intro">
+        <h2>From submission to honest review — a clear, careful process</h2>
+        <p class="p-muted">Our reading circles are designed to respect the book and the author. Each step is intentional and transparent so authors feel safe and readers feel valued.</p>
+      </div>
+
+      <!-- STEPS ROW 1: steps 1-3 -->
+      <div class="steps-grid" aria-hidden="false">
+        <!-- Step 1: Submit -->
+        <div class="step" id="step1">
+          <div class="num">1</div>
+          <h4>Submit your book</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step1.jpeg" alt="Person submitting manuscript">
+          </div>
+          <p>Authors provide a digital copy and choose a reader group size (e.g., 30, 50, 200). You may indicate preferences for genre or reader experience.</p>
+        </div>
+
+        <!-- Step 2: Verify -->
+        <div class="step" id="step2">
+          <div class="num">2</div>
+          <h4>Verification & selection</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step2.jpeg" alt="Book verification and review">
+          </div>
+          <p>We verify the book and check for availability, platform compliance, and any sensitive content. This step helps protect authors and readers from misunderstandings.</p>
+        </div>
+
+        <!-- Step 3: Match readers -->
+        <div class="step" id="step3">
+          <div class="num">3</div>
+          <h4>We match readers</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step3.jpeg" alt="Matching readers to books">
+          </div>
+          <p>We select a group of vetted readers matched by genre, background, and availability everyday people who read for the craft and community.</p>
+        </div>
+      </div>
+
+      <!-- STEPS ROW 2: steps 4-6 -->
+      <div class="steps-grid-2" aria-hidden="false">
+        <!-- Step 4: Reading cycle -->
+        <div class="step" id="step4">
+          <div class="num">4</div>
+          <h4>Reading cycle</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step4.jpeg" alt="Readers in a reading cycle">
+          </div>
+          <p>Readers enter a short, supported challenge (7, 14, or 21 days). They read together, discuss key moments in private threads, and reflect on the book’s craft and voice.</p>
+        </div>
+
+        <!-- Step 5: Community discussion -->
+        <div class="step" id="step5">
+          <div class="num">5</div>
+          <h4>Community discussion</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step5.jpeg" alt="Readers discussing a book">
+          </div>
+          <p>Readers share impressions, favorite passages, and polite critiques all aimed at helping authors understand how readers experience the book.</p>
+        </div>
+
+        <!-- Step 6: Honest reviews -->
+        <div class="step" id="step6">
+          <div class="num">6</div>
+          <h4>Honest reviews</h4>
+          <div class="step-illustration" aria-hidden="true">
+            <img src="Step6.jpeg" alt="Reviewing on Amazon and Goodreads">
+          </div>
+          <p>Vetted readers post thoughtful, policy-compliant reviews on Amazon and Goodreads. These are real reactions from real people no scripts, no paid farms.</p>
+        </div>
+      </div>
+
+      <!-- Trust micro / FAQ -->
+      <div class="trust" role="region" aria-labelledby="trustTitle" style="margin-top:28px">
+        <h4 id="trustTitle">A few things authors often ask</h4>
+        <p><strong>1. Who are the Readers in ReadersConnect?</strong> We are not a marketing agency or paid review group. Our readers are everyday people teachers, artists, musicians, parents, students, and professionals who genuinely love stories. Every review comes from someone who has actually read your book and cares about giving honest, thoughtful feedback.</p>
+        <p style="margin-top:8px"><strong>2. How does the reading process work?</strong> When an author shares their digital book with us, they choose how many readers they want to participate (30–50 for smaller circles or 200+ for larger cycles). We then run 7-day, 14-day, or 21-day reading challenges, depending on book length. During this time, readers dive into your story, discuss it in private groups, and leave authentic reviews on Amazon.</p>
+        <p style="margin-top:8px"><strong>3. Are reviews real and honest?</strong> Absolutely. We never script or exaggerate reviews. Our readers share their genuine reactions while following Amazon’s review policies. The goal is to provide meaningful, organic feedback while helping your book gain visibility with real readers.</p>
+        <p style="margin-top:8px"><strong>4. Why is there a small “thank-you gesture” for readers?</strong> Readers have jobs, families, and busy lives. A small gesture like a coffee or snack from the author keeps them motivated and engaged, but it is not a payment for reviews. It’s simply a token of appreciation that makes the experience warm and personal.</p>
+        <p style="margin-top:8px"><strong>5. Is my book safe with ReadersConnect?</strong> Yes. Our community is invite-only and private. Your book will only be seen by trusted members, and we take every precaution to maintain privacy and security. No spam, no public exposure just a safe, caring environment.</p>
+        <p style="margin-top:8px"><strong>6. Can I participate multiple times?</strong> Of course. Many authors come back with new titles or new editions. Each book cycle is a fresh opportunity to connect with engaged readers and receive authentic feedback.</p>
+        <p style="margin-top:8px"><strong>7. How do I join or share my book?</strong> Currently, our community is invite-only. To share your book, simply fill out our contact or invite request form. We review all requests personally to ensure a trusted, respectful experience for both authors and readers.</p>
+        <p style="margin-top:8px"><strong>8. How fast will I get feedback?</strong> Reading challenges are designed to fit real readers’ schedules. Typically, authors receive reviews within 1–3 weeks after the cycle ends. We personally monitor each challenge to ensure readers are engaged and timely feedback is delivered.</p>
+        <p style="margin-top:8px"><strong>9. Can I communicate with the readers?</strong> Direct communication is limited to maintain privacy and comfort for readers. However, you can share notes, thank-you gestures, or book updates through the challenge organizer (founder). We act as the bridge between authors and readers to maintain trust.</p>
+        <p style="margin-top:8px"><strong>10. Why should I choose ReadersConnect over other services?</strong> Because we are human-first, not business-first. No algorithms, no paid reviews, no fake hype. Just real readers who love books and want to support authors genuinely. Your book matters, and our mission is to help it reach readers who appreciate it most.</p>
+      </div>
+    </section>
+
+<section class="reading-cycle" style="max-width:880px;margin:60px auto;padding:0 24px">
+  <h2 style="font-family:'Playfair Display',serif;text-align:center;font-size:2rem;color:var(--accent-warm);margin-bottom:36px;">Reading Challenges</h2>
+
+  <div class="cycle-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+    <div class="cycle-card" style="background:var(--card);padding:28px;border-radius:14px;box-shadow:var(--shadow);text-align:center;transition:transform 0.3s ease;">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:12px;">7-Day Challenge</h3>
+      <p style="color:var(--muted);line-height:1.6;">Ideal for short books or readers with more availability. Readers take 7 days to finish the book, then post their honest review at the end.</p>
+    </div>
+
+    <div class="cycle-card" style="background:var(--card);padding:28px;border-radius:14px;box-shadow:var(--shadow);text-align:center;transition:transform 0.3s ease;">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:12px;">14-Day Challenge</h3>
+      <p style="color:var(--muted);line-height:1.6;">Suitable for medium-length books or readers with moderate availability. Readers use 14 days to immerse themselves, then leave their review.</p>
+    </div>
+
+    <div class="cycle-card" style="background:var(--card);padding:28px;border-radius:14px;box-shadow:var(--shadow);text-align:center;transition:transform 0.3s ease;">
+      <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:12px;">21-Day Challenge</h3>
+      <p style="color:var(--muted);line-height:1.6;">For longer books or readers with limited time. They have 21 days to read fully, then provide thoughtful, honest feedback at the end of the cycle.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Add smooth hover effect to cycle cards
+  document.querySelectorAll('.cycle-card').forEach(card=>{
+    card.addEventListener('mouseenter',()=>card.style.transform='translateY(-6px)');
+    card.addEventListener('mouseleave',()=>card.style.transform='translateY(0)');
+  });
+</script>
+
+<section class="reading-timeline" style="max-width:900px;margin:80px auto;padding:0 24px">
+  <h2 style="font-family:'Playfair Display',serif;text-align:center;font-size:2rem;color:var(--accent-warm);margin-bottom:40px;">How a Reading Cycle Works</h2>
+
+  <div class="timeline" style="display:flex;flex-direction:column;gap:40px;position:relative">
+    <!-- Step 1 -->
+    <div class="timeline-item" style="display:flex;align-items:flex-start;gap:20px;">
+      <div class="timeline-dot" style="width:20px;height:20px;background:var(--accent-warm);border-radius:50%;margin-top:6px;flex-shrink:0;"></div>
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:8px;">Step 1: Book Assigned</h3>
+        <p style="color:var(--muted);line-height:1.6;">The author shares their digital book with the ReadersConnect community. We confirm the number of readers and start the cycle based on book length and reader availability.</p>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="timeline-item" style="display:flex;align-items:flex-start;gap:20px;">
+      <div class="timeline-dot" style="width:20px;height:20px;background:var(--accent-warm);border-radius:50%;margin-top:6px;flex-shrink:0;"></div>
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:8px;">Step 2: Assigned Reading Period</h3>
+        <p style="color:var(--muted);line-height:1.6;">Readers get 7, 14, or 21 days to read the book depending on its length and their schedule. During this period, they immerse themselves in the story without sharing reviews yet.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="timeline-item" style="display:flex;align-items:flex-start;gap:20px;">
+      <div class="timeline-dot" style="width:20px;height:20px;background:var(--accent-warm);border-radius:50%;margin-top:6px;flex-shrink:0;"></div>
+      <div>
+        <h3 style="font-family:'Playfair Display',serif;color:var(--accent-warm);margin-bottom:8px;">Step 3: Reviews Posted</h3>
+        <p style="color:var(--muted);line-height:1.6;">After the reading period ends, readers share their honest, thoughtful reviews on Amazon. All feedback is genuine, heartfelt, and policy-compliant.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Optional: subtle connecting line */
+  .timeline::before{
+    content:'';
+    position:absolute;
+    left:9px;
+    top:0;
+    bottom:0;
+    width:2px;
+    background:var(--accent-warm);
+    opacity:0.2;
+  }
+
+  @media(max-width:720px){
+    .timeline::before{left:10px}
+    .timeline-item{flex-direction:row;gap:14px}
+  }
+</style>
+
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta-card" id="ctaCard">
+        <h3 style="font-family:'Playfair Display',serif;margin-bottom:8px">Ready to invite your book?</h3>
+        <p class="p-muted">If your manuscript is ready, tell us about it. We review submissions carefully and respond personally.</p>
+        <div style="margin-top:12px">
+          <a class="btn-primary" href="invite.html">Invite Your Book</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site" style="padding:36px 24px;text-align:center;color:var(--muted)">
+    <div class="container">
+      <div style="margin-bottom:8px">© <span id="year"></span> ReadersConnect — Private readers only</div>
+      <div>Email: <a href="mailto:reviews@readersconnect.example">reviews@readersconnect.example</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // reveal elements on scroll (quick & smooth)
+    (function(){
+      const toReveal = document.querySelectorAll('.hero-card, .meta, .step, .paper, .cta-card, .trust');
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            en.target.classList.add('show');
+            o.unobserve(en.target);
+          }
+        });
+      }, {threshold:0.12});
+      toReveal.forEach(el => { if(el) obs.observe(el); });
+    })();
+
+    // small accessible keyboard focus for nav CTA (mobile fallback)
+    document.querySelectorAll('a[href^="#"], a[href$=".html"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        // allow normal navigation
+      });
+    });
+  </script>
+</body>
+</html>
